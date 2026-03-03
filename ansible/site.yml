@@ -1,0 +1,12 @@
+---
+- name: Настройка Apache на веб-серверах
+  hosts: webservers
+  become: yes
+  roles:
+    - apache
+
+- name: Настройка балансировщика HAProxy
+  hosts: loadbalancer
+  become: yes
+  roles:
+    - haproxy

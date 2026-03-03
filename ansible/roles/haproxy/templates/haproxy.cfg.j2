@@ -1,0 +1,25 @@
+global
+    log /dev/log local0
+    chroot /var/lib/haproxy
+    pidfile /var/run/haproxy.pid
+    user haproxy
+    group haproxy
+    daemon
+
+defaults
+    log global
+    mode http
+    option httplog
+    timeout connect 5000
+    timeout client 50000
+    timeout server 50000
+
+frontend http_front
+    bind *:80
+    default_backend http_back
+
+backend http_back
+    balance roundrobin
+    server web1 192.168.0.11:80 check
+    server web2 192.168.0.12:80 check
+    server web3 192.168.0.13:80 check

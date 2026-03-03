@@ -1,0 +1,14 @@
+---
+- name: Install Apache
+  yum:
+    name: httpd
+    state: present
+
+- name: Create custom index.html
+  shell: echo "Welcome to {{ inventory_hostname }}" > /var/www/html/index.html
+
+- name: Start Apache
+  service:
+    name: httpd
+    state: started
+    enabled: yes

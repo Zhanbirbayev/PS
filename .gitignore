@@ -1,0 +1,21 @@
+# Игнорируем секреты Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfvars
+.terraform.lock.hcl
+
+# Игнорируем SSH ключи
+id_rsa
+pscloud_key
+*.pub
+
+# Игнорируем временные файлы Ansible
+*.retry
+
+# Системные файлы
+Thumbs.db
+.
+
+# Terraform crash logs
+crash.log
