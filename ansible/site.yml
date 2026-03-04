@@ -16,7 +16,7 @@
           wget https://dl.min.io/client/mc/release/linux-amd64/mc
         fi
         chmod +x ./mc
-        ./mc alias set mys3 http://213.155.21.230:9000 admin P12345678
+        ./mc alias set mys3 http://213.155.21.230:9000 {{ s3_user }} {{ s3_password }}
         ./mc cp mys3/ansible-storage/roles_from_s3.tar.gz /tmp/roles.tar.gz
       args:
         chdir: "{{ ansible_env.PWD }}"
