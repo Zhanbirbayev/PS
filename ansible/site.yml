@@ -1,35 +1,52 @@
 ---
-- name: Prepare Ansible Roles from S3
+- name: Step 0 - Fetch and Extract Roles from S3
   hosts: localhost
   connection: local
   tasks:
-    - name: Ensure roles directory exists
+    - name: Ensure base directory exists
       become: yes
       file:
-        path: /etc/ansible/roles
+        path: /etc/ansible
         state: directory
         mode: '0755'
 
-    - name: Download roles archive from MinIO
-      shell: "/home/centos/mc cp mys3/ansible-storage/roles_from_s3.tar.gz /tmp/roles.tar"
-      register: download_result
+    - name: Download mc and fetch roles from S3
+      shell: |
+        if [ ! -f "./mc" ]; then
+          wget https://dl.min.io/client/mc/release/linux-amd64/mc
+        fi
+        chmod +x ./mc
+        ./mc alias set mys3 http://213.155.21.230:9000 admin P12345678
+        ./mc cp mys3/ansible-storage/roles_from_s3.tar.gz /tmp/roles.tar.gz
+      args:
+        chdir: "{{ ansible_env.PWD }}"
+        executable: /bin/bash
 
-    - name: Extract roles to Ansible folder
+    - name: Clean old roles before extraction
+      become: yes
+      file:
+        path: /etc/ansible/roles
+        state: absent
+
+    - name: Unpack roles to /etc/ansible/
       become: yes
       unarchive:
-        src: /tmp/roles.tar
-        dest: /etc/ansible/roles/
+        src: /tmp/roles.tar.gz
+        dest: /etc/ansible/
         remote_src: yes
-      when: download_result.rc == 0
 
-- name: Настройка Apache на веб-серверах
+- name: Step 1 - Configure Apache Servers
   hosts: webservers
   become: yes
-  roles:
-    - apache
+  tasks:
+    - name: Execute apache role
+      include_role:
+        name: apache
 
-- name: Настройка балансировщика HAProxy
+- name: Step 2 - Configure Load Balancer
   hosts: loadbalancer
   become: yes
-  roles:
-    - haproxy
+  tasks:
+    - name: Execute haproxy role
+      include_role:
+        name: haproxy
