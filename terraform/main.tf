@@ -22,7 +22,7 @@ variable "image_id" {
   default = "3f5b3bae-e421-4d1f-9f1c-45e363187b11"
 }
 
-# Описание наших 5 серверов
+# Описание 5 серверов
 variable "vms" {
   default = {
     "haproxy" = "192.168.0.10"
