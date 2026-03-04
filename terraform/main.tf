@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "openstack" {
-  user_name   = "18531_nu-musca"
+  user_name   = "{{ s3_username }}"
   tenant_name = "nu-musca 1"
   password    = "********"
   auth_url    = "https://auth.pscloud.io/v3/"
