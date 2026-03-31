@@ -246,7 +246,7 @@ cd /home/centos/ansible
 ansible all -m ping -i hosts.ini
 ```
 
-## ✅ Проверка результата
+##  Проверка результата
 
 ### Проверка веб-кластера
 
