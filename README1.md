@@ -1,4 +1,4 @@
-# Infrastructure as Code: Web Cluster with Load Balancer
+# Terraform & Ansible Web Cluster — Cloud Engineer Test Task
 
 Данный проект реализует **автоматизированное развертывание отказоустойчивой веб-инфраструктуры в облаке** с использованием подхода **Infrastructure as Code (IaC)**.
 
